@@ -1,0 +1,66 @@
+{
+  "output_dir": "outputs",
+  "log_dir": "logs",
+  "max_news_count": 15,
+  "summary_max_length": 300,
+  "days_limit": 2,
+  "exclude_keywords": [
+    "票房", "影评", "入门", "推广"
+  ],
+  "tavily_config": {
+    "enable": true,
+    "api_key": "YOUR_TAVILY_API_KEY",
+    "queries": [
+      "AI model release breakthrough",
+      "Large Language Models LLM industry news",
+      "AI Agent framework framework practical application",
+      "GitHub trending open source AI projects",
+      "大语言模型 核心技术突破与发布",
+      "AI智能体 Agent 最佳实践与落地应用",
+      "RAG 检索增强生成 技术架构与优化"
+    ],
+    "include_domains": [
+      "theverge.com",
+      "techcrunch.com",
+      "wired.com",
+      "qbitai.com",
+      "sspai.com",
+      "jiqizhixin.com",
+      "36kr.com"
+    ]
+  },
+  "llm_config": {
+    "enable": true,
+    "api_key": "YOUR_VOLCENGINE_API_KEY",
+    "base_url": "https://ark.cn-beijing.volces.com/api/coding/v3",
+    "model_endpoint": "YOUR_MODEL_ENDPOINT",
+    "short_content_threshold": 100,
+    "temperature": 0.8,
+    "max_tokens": 128000,
+    "prompt": "你是一个硬核的科技新闻编辑。请阅读以下新闻内容，提取出最核心的技术突破、发布内容或行业动态。要求：\n1. 摘要必须在 300 字以内；\n2. 语言精炼、客观，拒绝营销废话；\n3. 如果内容包含 AI/大模型/开源项目相关内容，请重点突出；\n4. 直接输出摘要内容，不要有任何前缀；\n5.输出的摘要为中文 。"
+  },
+  "high_weight_keywords": [
+    "AI", "大模型", "LLM", "Agent", "智能体", "RAG", "多模态", "云原生",
+    "Kubernetes", "K8s", "容器", "微服务", "分布式", "数字化转型",
+    "企业数字化", "软件出海", "全球化", "云计算", "数据安全", "网络安全",
+    "芯片", "半导体", "GPU", "机器人", "Large Language Model",
+    "Multimodal", "Cloud Native", "Container", "Microservices",
+    "Distributed", "Digital Transformation", "Enterprise Digital",
+    "Software Globalization", "SaaS", "Cloud Computing", "Data Security",
+    "Cybersecurity", "Chip", "Semiconductor", "Robot"
+  ],
+  "rss_feeds": {
+    "36氪": "https://36kr.com/feed",
+    "机器之心": "https://www.jiqizhixin.com/rss",
+    "InfoQ中文": "https://www.infoq.cn/feed",
+    "InfoQ 推荐": "https://www.infoq.cn/feed/recommend",
+    "开源中国": "https://www.oschina.net/news/rss",
+    "掘金技术热榜": "https://juejin.cn/rss",
+    "HelloGitHub": "https://hellogithub.com/rss",
+    "Hacker News 高分精选": "https://hnrss.org/best?points=100",
+    "Ars Technica": "https://feeds.arstechnica.com/arstechnica/index",
+    "MIT Technology Review": "https://www.technologyreview.com/feed/",
+    "GitHub Blog": "https://github.blog/feed/",
+    "AWS News Blog": "https://aws.amazon.com/blogs/aws/feed/"
+  }
+}

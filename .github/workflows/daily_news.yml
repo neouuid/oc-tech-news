@@ -1,0 +1,64 @@
+name: Daily Tech News Crawler
+
+on:
+  schedule:
+    # 每天北京时间早上 8:00 (UTC 时间 0:00) 自动运行
+    - cron: '0 0 * * *'
+  workflow_dispatch: # 允许在 GitHub Actions 页面手动触发
+
+jobs:
+  run-crawler:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Prepare config.json
+        env:
+          TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }}
+          VOLCENGINE_API_KEY: ${{ secrets.VOLCENGINE_API_KEY }}
+          VOLCENGINE_MODEL_ENDPOINT: ${{ secrets.VOLCENGINE_MODEL_ENDPOINT }}
+        run: |
+          cp config.example.json config.json
+          python -c "
+          import json, os
+          with open('config.json', 'r', encoding='utf-8') as f:
+              data = json.load(f)
+          
+          # Inject secrets into config if they exist
+          if os.environ.get('TAVILY_API_KEY'):
+              data['tavily_config']['api_key'] = os.environ.get('TAVILY_API_KEY')
+          if os.environ.get('VOLCENGINE_API_KEY'):
+              data['llm_config']['api_key'] = os.environ.get('VOLCENGINE_API_KEY')
+          if os.environ.get('VOLCENGINE_MODEL_ENDPOINT'):
+              data['llm_config']['model_endpoint'] = os.environ.get('VOLCENGINE_MODEL_ENDPOINT')
+              
+          with open('config.json', 'w', encoding='utf-8') as f:
+              json.dump(data, f, ensure_ascii=False, indent=2)
+          "
+
+      - name: Run Tech News Crawler
+        run: |
+          mkdir -p outputs logs
+          python fetch_news.py
+
+      - name: Upload Daily News Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: tech-news-daily-report
+          path: |
+            outputs/*.md
+            logs/*.log
+          retention-days: 7
