@@ -27,6 +27,7 @@ def send_to_feishu(content: str, title: str = "📰 全球科技新闻每日汇�
         cmd = [
             "openclaw", "message", "send",
             "--channel", "feishu",
+            "--target", "ou_a0129f24abde586612dc307548c0037c",
             "--message", message_content
         ]
         
